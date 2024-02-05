@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const compression = require('compression');
 const viewRouter = require('./routes/viewRoutes');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
@@ -80,7 +81,10 @@ app.use((req, res, next) => {
 	next();
 });
 
-// Mounting
+// 7. Compression
+app.use(compression());
+
+// 8 Mounting/Routes
 app
 	.use(viewRouter)
 	.use('/api/v1/tours', tourRouter)

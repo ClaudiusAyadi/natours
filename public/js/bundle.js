@@ -47564,7 +47564,7 @@ ${i2.vertexSource}`;
     try {
       const res = await axios_default({
         method: "POST",
-        url: "http://127.0.0.1:3000/api/v1/users/login",
+        url: "/api/v1/users/login",
         data: {
           email,
           password
@@ -47584,7 +47584,7 @@ ${i2.vertexSource}`;
     try {
       const res = await axios_default({
         method: "GET",
-        url: "http://127.0.0.1:3000/api/v1/users/logout"
+        url: "/api/v1/users/logout"
       });
       if (res.data.status === "success") {
         showAlert("success", "Logged out successfully");
@@ -47599,7 +47599,7 @@ ${i2.vertexSource}`;
 
   // public/js/settings.js
   var update = async (data, type) => {
-    const url = type === "password" ? "http://127.0.0.1:3000/api/v1/users/updatePassword" : "http://127.0.0.1:3000/api/v1/users/updateMe";
+    const url = type === "password" ? "/api/v1/users/updatePassword" : "/api/v1/users/updateMe";
     try {
       const res = await axios_default({
         method: "PATCH",
@@ -47757,9 +47757,7 @@ ${i2.vertexSource}`;
       const stripe = await loadStripe(
         "pk_test_51OdGE5DrjbcrnAybG3fKPw3wOCAuaClwua0p5Zibyty9ySYwth9Mjavu4J53uB6TJzQMD4XKNuMZcGX95gEeJW6D00SWBp4t8n"
       );
-      const session = await axios_default(
-        `http://127.0.0.1:3000/api/v1/bookings/checkout/${tourId}`
-      );
+      const session = await axios_default(`/api/v1/bookings/checkout/${tourId}`);
       await stripe.redirectToCheckout({
         sessionId: session.data.session.id
       });

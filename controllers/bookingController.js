@@ -53,7 +53,6 @@ exports.createBookingCheckout = catchAsync(async (req, res, next) => {
 exports.paid = catchAsync(async (req, res, next) => {
 	const { id } = req.user;
 	const { tourId } = req.params;
-	console.log(id, tourId);
 
 	const booking = await Booking.findOne({ tour: tourId, user: id });
 	if (!booking || !booking.paid)
