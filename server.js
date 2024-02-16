@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
 require('dotenv').config();
+const mongoose = require('mongoose');
 
 process.on('uncaughtException', err => {
 	console.log('⛔ UNCAUGHT EXCEPTION!🚫 Server is shutting down...');

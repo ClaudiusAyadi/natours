@@ -8,8 +8,8 @@
 	"scripts": {
 		"dev": "nodemon server.js",
 		"build": "set NODE_ENV=production&&nodemon server.js",
-		"w": "esbuild --bundle ./public/js/index.js --outfile=./public/js/bundle.js --watch",
-		"b": "esbuild --bundle ./public/js/index.js --outfile=./public/js/bundle.js",
+		"w": "esbuild ./public/js/index.js --bundle --outfile=./public/js/bundle.js --watch",
+		"b": "esbuild ./public/js/index.js --bundle --minify --outfile=./public/js/bundle.js",
 		"debug": "ndb server.js"
 	},
 	"dependencies": {
