@@ -28,11 +28,26 @@ app.set('views', path.join(__dirname, 'views'));
 // Global Middleware
 // 1. Implement CORS
 app.use(cors());
+app.options('*', cors());
+
 // 2.static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 3. Set security HTTP headers
-app.use(helmet());
+app.use(
+	helmet.contentSecurityPolicy({
+		directives: {
+			defaultSrc: ["'self'", 'data:', 'blob:'],
+			fontSrc: ["'self'", 'https:', 'data:'],
+			scriptSrc: ["'self'", 'unsafe-inline'],
+			scriptSrcElem: ["'self'", 'https:', 'https://*.cloudflare.com'],
+			styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
+			connectSrc: ["'self'", 'data:', 'https:'],
+			workerSrc: ["'self'", 'blob:', 'unsafe-inline'],
+			frameSrc: ["'self'", 'https', 'https://*.stripe.com'],
+		},
+	})
+);
 
 // 4. Dev logging
 if (process.env.NODE_ENV === 'development') {

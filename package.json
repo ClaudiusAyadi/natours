@@ -6,11 +6,11 @@
 	"author": "Claudius A.",
 	"license": "MIT",
 	"scripts": {
-		"dev": "nodemon server.js",
+		"watch": "esbuild ./public/js/index.js --bundle --outfile=./public/js/bundle.js --watch",
+		"build": "esbuild ./public/js/index.js --bundle --minify --outfile=./public/js/bundle.js",
+		"dev": "concurrently --kill-others \"yarn watch\" \"nodemon server.js\"",
+		"prod": "set NODE_ENV=production&&nodemon server.js",
 		"start": "node server.js",
-		"build": "set NODE_ENV=production&&nodemon server.js",
-		"w": "esbuild ./public/js/index.js --bundle --outfile=./public/js/bundle.js --watch",
-		"b": "esbuild ./public/js/index.js --bundle --minify --outfile=./public/js/bundle.js",
 		"debug": "ndb server.js"
 	},
 	"dependencies": {
@@ -46,6 +46,7 @@
 	},
 	"devDependencies": {
 		"@prettier/plugin-pug": "^3.0.0",
+		"concurrently": "^8.2.2",
 		"esbuild": "^0.19.12",
 		"eslint": "^8.56.0",
 		"eslint-config-airbnb": "^19.0.4",

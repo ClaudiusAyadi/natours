@@ -14,7 +14,7 @@ const port = process.env.PORT || 5000;
 const server = app.listen(port, async () => {
 	await mongoose.connect(DB);
 	console.log(`${mongoose.connection.host} Connected`);
-	console.log(`Server running on: ${port}`);
+	console.log(`App running on PORT: ${port}`);
 });
 
 process.on('unhandledRejection', err => {
