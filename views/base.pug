@@ -3,12 +3,34 @@ html(lang='en')
 	block head
 		head
 			meta(charset='UTF-8')
+			meta(
+				name='robots',
+				content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+			)
 			meta(name='viewport', content='width=device-width, initial-scale=1.0')
-
+			title #{ title } - Natours
+			meta(name='description', content=title)
+			link(rel='canonical', href=url)
+			meta(property='og:locale', content='en_US')
+			meta(property='og:type', content='article')
+			meta(property='og:title', content=`${title} - Natours`)
+			meta(property='og:url', content=url)
+			meta(property='og:site_name', content='Natours')
+			meta(property='og:image', content=img ? img : 'no display image')
+			meta(property='og:image:width', content='300')
+			meta(property='og:image:height', content='300')
+			meta(property='og:image:type', content='image/jpg')
+			meta(name='author', content='Claudius A.')
+			meta(name='twitter:card', content='summary_large_image')
+			meta(name='twitter:creator', content='@ClaudiusA')
+			meta(name='twitter:site', content='@ClaudiusA')
+			meta(
+				name='generator',
+				content='Powered by adun.studio - Engineering cutting-edge digital solutions for brands & agencies'
+			)
 			link(rel='icon', href='/img/favicon.png', type='image/png')
-			link(rel='stylesheet', href='/css/style.css')
+			link(rel='stylesheet', href='/css/style.css', media='all')
 			link(rel='stylesheet', href='/fonts/font.css')
-			title Natours | #{ title }
 
 	body
 		//- HEADER
@@ -20,4 +42,4 @@ html(lang='en')
 
 	//- FOOTER
 	include partials/_footer
-	script(src="/js/bundle.js")
+	script(src='/js/bundle.js')
