@@ -20,20 +20,16 @@ const globalErrorHandler = require('./controllers/errorController');
 // Instantiate the express app
 const app = express();
 
-app.enable('trust proxy');
+/**
+ * GLOBAL MIDDLEWARES
+ */
 
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
-
-// Global Middleware
-// 1. Implement CORS
+// Implement CORS
 app.use(cors());
 app.options('*', cors());
+app.enable('trust proxy');
 
-// 2.static folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-// 3. Set security HTTP headers
+// Set security HTTP headers
 app.use(
 	helmet.contentSecurityPolicy({
 		directives: {
@@ -49,12 +45,18 @@ app.use(
 	})
 );
 
-// 4. Dev logging
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+// Static folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Dev logging
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
 
-// 5. Rate limiting
+// Rate limiting
 const limiter = rateLimit({
 	limit: 100,
 	windowMs: 60 * 60 * 1000,
@@ -62,11 +64,11 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// 6. Body parser & cookie parser, reading data from body into req.body
+// Body parser & cookie parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
-// 7. Data sanitization & params pollution
+// Data sanitization & params pollution
 app.use(mongoSanitize());
 app.use(xss());
 app.use(
@@ -82,16 +84,16 @@ app.use(
 	})
 );
 
-// 8.  Test middleware
+// Test middleware
 app.use((req, res, next) => {
 	req.requestTime = new Date().toISOString();
 	next();
 });
 
-// 9. Compression
+// Compression
 app.use(compression());
 
-// 10 Mounting/Routes
+// Mounting/Routes
 app
 	.use(viewRouter)
 	.use('/api/v1/tours', tourRouter)
