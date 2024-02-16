@@ -47549,7 +47549,7 @@ ${i2.vertexSource}`;
   var hideAlert = () => {
     const el = document.querySelector(".alert");
     if (el)
-      el.parentElement.removeChild(el);
+      return el.parentElement.removeChild(el);
   };
   var showAlert = (type, msg) => {
     hideAlert();

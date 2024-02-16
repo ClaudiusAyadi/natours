@@ -9,6 +9,7 @@ exports.getOverview = catchAsync(async (req, res) => {
 
 	res.status(200).render('overview', {
 		title: 'All Tours',
+		url: `${req.protocol}://${req.get('host')}`,
 		tours,
 	});
 });
@@ -25,19 +26,23 @@ exports.getTour = catchAsync(async (req, res, next) => {
 		);
 	res.status(200).render('tour', {
 		title: `${tour.name} Tour`,
+		url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
+		img: `${req.protocol}://${req.get('host')}/img/tours/${tour.imageCover}`,
 		tour,
 	});
 });
 
 exports.getLogin = (req, res) => {
 	res.status(200).render('login', {
-		title: 'Login | Natours',
+		title: 'Login',
+		url: `${req.protocol}://${req.get('host')}/login`,
 	});
 };
 
 exports.getAccount = (req, res) => {
 	res.status(200).render('account', {
 		title: 'My account',
+		url: `${req.protocol}://${req.get('host')}/account`,
 	});
 };
 
@@ -56,6 +61,7 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
 
 	res.status(200).render('account', {
 		title: 'Your account',
+		url: `${req.protocol}://${req.get('host')}/account`,
 		user: updatedUser,
 	});
 });
@@ -70,6 +76,8 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
 
 	res.status(200).render('overview', {
 		title: 'My Tours',
+		url: `${req.protocol}://${req.get('host')}/my-tours`,
+
 		tours,
 	});
 });
