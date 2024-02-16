@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
@@ -25,31 +26,20 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // Global Middleware
-// 1.static folder
+// 1. Implement CORS
+app.use(cors());
+// 2.static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 2. Set security HTTP headers
-app.use(
-	helmet.contentSecurityPolicy({
-		directives: {
-			defaultSrc: ["'self'", 'data:', 'blob:'],
-			fontSrc: ["'self'", 'https:', 'data:'],
-			scriptSrc: ["'self'", 'unsafe-inline'],
-			scriptSrcElem: ["'self'", 'https:', 'https://*.cloudflare.com'],
-			styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
-			connectSrc: ["'self'", 'data:', 'https:'],
-			workerSrc: ["'self'", 'blob:', 'unsafe-inline'],
-			frameSrc: ["'self'", 'https', 'https://*.stripe.com'],
-		},
-	})
-);
+// 3. Set security HTTP headers
+app.use(helmet());
 
-// 3. Dev logging
+// 4. Dev logging
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
 
-// 4. Rate limiting
+// 5. Rate limiting
 const limiter = rateLimit({
 	limit: 100,
 	windowMs: 60 * 60 * 1000,
@@ -57,11 +47,11 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// 5. Body parser & cookie parser, reading data from body into req.body
+// 6. Body parser & cookie parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
-// 6. Data sanitization & params pollution
+// 7. Data sanitization & params pollution
 app.use(mongoSanitize());
 app.use(xss());
 app.use(
@@ -77,16 +67,16 @@ app.use(
 	})
 );
 
-// 6.  Test middleware
+// 8.  Test middleware
 app.use((req, res, next) => {
 	req.requestTime = new Date().toISOString();
 	next();
 });
 
-// 7. Compression
+// 9. Compression
 app.use(compression());
 
-// 8 Mounting/Routes
+// 10 Mounting/Routes
 app
 	.use(viewRouter)
 	.use('/api/v1/tours', tourRouter)
