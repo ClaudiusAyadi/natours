@@ -19,7 +19,6 @@ const globalErrorHandler = require('./controllers/errorController');
 
 // Instantiate the express app
 const app = express();
-app.enable('trust proxy');
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -35,13 +34,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(
 	helmet.contentSecurityPolicy({
 		directives: {
-			defaultSrc: ["'self'", 'data:', 'blob:'],
-			fontSrc: ["'self'", 'https:', 'data:'],
+			defaultSrc: ["'self'", 'none'],
+			fontSrc: ["'self'", 'https:'],
 			scriptSrc: ["'self'", 'unsafe-inline'],
 			scriptSrcElem: ["'self'", 'https:', 'https://*.cloudflare.com'],
 			styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
-			connectSrc: ["'self'", 'data:', 'https:'],
-			workerSrc: ["'self'", 'blob:', 'unsafe-inline'],
+			connectSrc: ["'self'", 'https:'],
+			workerSrc: ["'self'", 'https', 'blob:'],
 			frameSrc: ["'self'", 'https', 'https://*.stripe.com'],
 		},
 	})
