@@ -16,7 +16,7 @@
 	"dependencies": {
 		"@babel/core": "^7.23.9",
 		"@babel/preset-env": "^7.23.9",
-		"@stripe/stripe-js": "^2.4.0",
+		"@stripe/stripe-js": "^3.0.3",
 		"axios": "^1.6.5",
 		"bcryptjs": "^2.4.3",
 		"compression": "^1.7.4",

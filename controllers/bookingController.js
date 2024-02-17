@@ -73,10 +73,9 @@ exports.checkout = catchAsync(async (req, res, next) => {
 			process.env.PAYMENT_WEBHOOK_KEY
 		);
 	} catch (err) {
-		res.status(400).send(`Webhook Error: ${err.message}`);
+		return res.status(400).send(`Webhook Error: ${err.message}`);
 	}
 
-	// Handle the event
 	console.log(`Unhandled event type ${event.type}`);
 	if (event.type === 'checkout.session.completed')
 		createBookingCheckout(event.data.object);

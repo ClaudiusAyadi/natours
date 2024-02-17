@@ -15,8 +15,8 @@ const server = app.listen(port, async () => {
 	mongoose.set('strictQuery', false);
 	await mongoose.connect(DB);
 	console.log(`Connected: ${mongoose.connection.host}`);
-	console.log(`App is live 🎉`);
 	console.log(`PORT: ${port}`);
+	console.log(`App is live 🎉`);
 });
 
 process.on('unhandledRejection', err => {
