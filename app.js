@@ -6,7 +6,6 @@ const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean');
 const hpp = require('hpp');
 const compression = require('compression');
 const viewRouter = require('./routes/viewRoutes');
@@ -64,7 +63,6 @@ app.use(cookieParser());
 
 // 7. Data sanitization & params pollution
 app.use(mongoSanitize());
-app.use(xss());
 app.use(
 	hpp({
 		whitelist: [
