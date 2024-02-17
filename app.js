@@ -20,16 +20,19 @@ const globalErrorHandler = require('./controllers/errorController');
 // Instantiate the express app
 const app = express();
 
-/**
- * GLOBAL MIDDLEWARES
- */
+app.enable('trust proxy');
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
-// Implement CORS
+// Global Middleware
+// 1. Implement CORS
 app.use(cors());
 app.options('*', cors());
-app.enable('trust proxy');
 
-// Set security HTTP headers
+// 2. Static folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// 3. Set security HTTP headers
 app.use(
 	helmet.contentSecurityPolicy({
 		directives: {
@@ -45,30 +48,21 @@ app.use(
 	})
 );
 
-app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+// 4. Dev logging
+if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
-// Static folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Dev logging
-if (process.env.NODE_ENV === 'development') {
-	app.use(morgan('dev'));
-}
-
-// Rate limiting
+// 5. Rate limiting
 const limiter = rateLimit({
 	limit: 100,
 	windowMs: 60 * 60 * 1000,
 	message: 'Too many requests from this IP, please try again in an hour.',
 });
-app.use('/api', limiter);
 
-// Body parser & cookie parser, reading data from body into req.body
+// 6. Body parser & cookie parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
-// Data sanitization & params pollution
+// 7. Data sanitization & params pollution
 app.use(mongoSanitize());
 app.use(xss());
 app.use(
@@ -84,18 +78,19 @@ app.use(
 	})
 );
 
-// Test middleware
+// 8.  Test middleware
 app.use((req, res, next) => {
 	req.requestTime = new Date().toISOString();
 	next();
 });
 
-// Compression
+// 9. Compression
 app.use(compression());
 
-// Mounting/Routes
+// 10 Mounting/Routes
 app
 	.use(viewRouter)
+	.use('/api', limiter)
 	.use('/api/v1/tours', tourRouter)
 	.use('/api/v1/users', userRouter)
 	.use('/api/v1/reviews', reviewRouter)

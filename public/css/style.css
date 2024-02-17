@@ -353,13 +353,13 @@ body {
 .section-header {
 	position: relative;
 	height: 38vw;
-	clip-path: polygon(
+	-webkit-clip-path: polygon(
 		0 0,
 		100% 0,
 		100% calc(100% - var(--section-rotate)),
 		0 100%
 	);
-	-webkit-clip-path: polygon(
+	clip-path: polygon(
 		0 0,
 		100% 0,
 		100% calc(100% - var(--section-rotate)),
@@ -520,13 +520,13 @@ body {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
-	clip-path: polygon(
+	-webkit-clip-path: polygon(
 		0 var(--section-rotate),
 		100% 0,
 		100% calc(100% - var(--section-rotate)),
 		0 100%
 	);
-	-webkit-clip-path: polygon(
+	clip-path: polygon(
 		0 var(--section-rotate),
 		100% 0,
 		100% calc(100% - var(--section-rotate)),

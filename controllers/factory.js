@@ -16,6 +16,7 @@ exports.getAll = (Model, modelName) =>
 			.paginate()
 			.createdOff()
 			.updatedOff();
+
 		// const doc = await features.query.explain();
 		const doc = await features.query;
 
