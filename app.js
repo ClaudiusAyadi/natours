@@ -20,11 +20,6 @@ const globalErrorHandler = require('./controllers/errorController');
 // Instantiate the express app
 const app = express();
 app.enable('trust proxy');
-app.set('trust proxy', 1);
-app.get('/ip', (req, res) => res.send(req.ip));
-app.get('/x-forwarded-for', (req, res) =>
-	res.send(req.headers['x-forwarded-for'])
-);
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 

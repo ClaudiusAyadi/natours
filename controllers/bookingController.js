@@ -60,11 +60,12 @@ const createBookingCheckout = async session => {
 	const tour = session.client_reference_id;
 	const user = (await User.findOne({ email: session.customer_email })).id;
 	console.log(session.line_items[0]);
-	// const price = session.line_items[0].price_data.unit_amount / 100;
-	// await Booking.create({ tour, user });
+	console.log(session.display_items[0]);
+	const price = session.display_items[0].amount / 100;
+	await Booking.create({ tour, user, price });
 };
 
-exports.checkout = catchAsync(async (req, res, next) => {
+exports.checkout = (req, res, next) => {
 	const sig = req.headers['stripe-signature'];
 	let event;
 	try {
@@ -74,13 +75,15 @@ exports.checkout = catchAsync(async (req, res, next) => {
 			process.env.PAYMENT_WEBHOOK_KEY
 		);
 	} catch (err) {
-		return res.status(400).send(`Webhook Error: ${err.message}`);
+		res.status(400).send(`Webhook Error: ${err.message}`);
+		return;
 	}
 
 	if (event.type === 'checkout.session.completed')
 		createBookingCheckout(event.data.object);
+
 	res.status(200).json({ received: true });
-});
+};
 
 exports.getAllBookings = factory.getAll(Booking, 'booking');
 exports.getBooking = factory.getOne(Booking, 'booking');
