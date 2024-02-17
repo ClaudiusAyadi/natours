@@ -77,15 +77,8 @@ exports.webhookCheckout = (req, res, next) => {
 		return;
 	}
 
-	switch (event.type) {
-		case 'checkout.session.completed':
-			// eslint-disable-next-line no-case-declarations
-			const checkoutSessionCompleted = event.data.object;
-			createBookingCheckout(checkoutSessionCompleted);
-			break;
-		default:
-			console.log(`Unhandled event type ${event.type}`);
-	}
+	if (event.type === 'checkout.session.completed')
+		createBookingCheckout(event.data.object);
 
 	res.status(200).json({ received: true });
 };
