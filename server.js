@@ -10,12 +10,13 @@ process.on('uncaughtException', err => {
 const app = require('./app');
 
 const DB = process.env.DB.replace('<PASSWORD>', process.env.DB_PASSWORD);
-const port = process.env.PORT || 5000;
-const server = app.listen(port, async () => {
+const PORT = process.env.PORT || 5000;
+const server = app.listen(PORT, async () => {
 	mongoose.set('strictQuery', false);
 	await mongoose.connect(DB);
-	console.log(`${mongoose.connection.host} Connected`);
-	console.log(`App running on PORT: ${port}`);
+	console.log(`Connected: ${mongoose.connection.host}`);
+	console.log(`PORT: ${PORT}`);
+	console.log(`App is live 🎉`);
 });
 
 process.on('unhandledRejection', err => {

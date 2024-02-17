@@ -8,7 +8,7 @@
 	"scripts": {
 		"watch": "esbuild ./public/js/index.js --bundle --outfile=./public/js/bundle.js --watch",
 		"build": "esbuild ./public/js/index.js --bundle --minify --outfile=./public/js/bundle.js",
-		"dev": "concurrently --kill-others \"yarn watch\" \"nodemon server.js\"",
+		"dev": "concurrently --kill-others \"pnpm watch\" \"nodemon server.js\"",
 		"prod": "set NODE_ENV=production&&nodemon server.js",
 		"start": "node server.js",
 		"debug": "ndb server.js"
@@ -58,6 +58,6 @@
 		"prettier": "^3.1.1"
 	},
 	"engines": {
-		"node": ">=10.0.0"
+		"node": ">=16.0.0"
 	}
 }
