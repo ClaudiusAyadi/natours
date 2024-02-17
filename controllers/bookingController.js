@@ -65,7 +65,7 @@ const createBookingCheckout = async session => {
 	await Booking.create({ tour, user });
 };
 
-exports.checkout = (req, res, next) => {
+exports.webhookCheckout = (req, res, next) => {
 	const sig = req.headers['stripe-signature'];
 	let event;
 	try {

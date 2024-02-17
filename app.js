@@ -13,7 +13,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
-const { checkout } = require('./controllers/bookingController');
+const bookingController = require('./controllers/bookingController');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -57,7 +57,11 @@ const limiter = rateLimit({
 	validate: { trustProxy: false, xForwardedForHeader: false },
 });
 app.use('/api', limiter);
-app.post('/webhook', express.raw({ type: 'application/json' }), checkout);
+app.post(
+	'/webhook',
+	express.raw({ type: 'application/json' }),
+	bookingController.webhookCheckout
+);
 
 // 6. Body parser & cookie parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
