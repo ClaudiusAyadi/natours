@@ -49,7 +49,7 @@ app.use(
 // 4. Dev logging
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
-// 5. Rate limiting
+// 5. Request Rate limiting
 const limiter = rateLimit({
 	limit: 100,
 	windowMs: 60 * 60 * 1000,
