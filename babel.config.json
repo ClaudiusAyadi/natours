@@ -1,0 +1,12 @@
+{
+	"presets": [
+		[
+			"@babel/preset-env",
+			{
+				"corejs": "3.36.0",
+				"useBuiltIns": "usage"
+			}
+		]
+	],
+	"exclude": ["./node_modules"]
+}

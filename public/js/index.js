@@ -1,7 +1,4 @@
 /* eslint-disable */
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-
 import { displayMap } from './mapbox';
 import { login, logout } from './login';
 import { update } from './settings';

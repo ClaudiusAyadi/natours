@@ -28,6 +28,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
 		title: `${tour.name} Tour`,
 		url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
 		img: `${req.protocol}://${req.get('host')}/img/tours/${tour.imageCover}`,
+		type: 'article',
 		tour,
 	});
 });
@@ -77,7 +78,6 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
 	res.status(200).render('overview', {
 		title: 'My Tours',
 		url: `${req.protocol}://${req.get('host')}/my-tours`,
-
 		tours,
 	});
 });

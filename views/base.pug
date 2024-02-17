@@ -12,7 +12,7 @@ html(lang='en')
 			meta(name='description', content=title)
 			link(rel='canonical', href=url)
 			meta(property='og:locale', content='en_US')
-			meta(property='og:type', content='article')
+			meta(property='og:type', content=type ? type : 'website')
 			meta(property='og:title', content=`${title} - Natours`)
 			meta(property='og:url', content=url)
 			meta(property='og:site_name', content='Natours')
@@ -42,4 +42,4 @@ html(lang='en')
 
 	//- FOOTER
 	include partials/_footer
-	script(src='/js/bundle.js')
+	script(src='/js/app.js')
