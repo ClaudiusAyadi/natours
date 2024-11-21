@@ -1,13 +1,14 @@
 /* eslint-disable */
 import { displayMap } from './mapbox';
-import { login, logout } from './login';
+import { login, logout, signup } from './login';
 import { update } from './settings';
 import { bookTour } from './stripe';
-import { alert, showAlert } from './alert';
+import { showAlert } from './alert';
 
 // DOM Elements
 const mapBox = document.querySelector('#map');
 const loginForm = document.querySelector('.login');
+const signupForm = document.querySelector('.signup');
 const logoutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const passwordUpdate = document.querySelector('.form-user-settings');
@@ -26,6 +27,17 @@ if (loginForm) {
 		const email = loginForm.email.value;
 		const password = loginForm.password.value;
 		login(email, password);
+	});
+}
+
+if (signupForm) {
+	signupForm.addEventListener('submit', e => {
+		e.preventDefault();
+		const name = signupForm.name.value;
+		const email = signupForm.email.value;
+		const password = signupForm.password.value;
+		const passwordConfirm = signupForm.passwordConfirm.value;
+		signup(name, email, password, passwordConfirm);
 	});
 }
 

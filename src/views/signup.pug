@@ -1,0 +1,47 @@
+extends base
+
+block content
+	.signup-form
+		h2.heading-secondary.ma-bt-lg Sign up to book
+		form.form.signup
+			.form__group
+				label.form__label(for='name') Full name
+				input#name.form__input(
+					type='text',
+					name='name',
+					placeholder='Claudius A.',
+					autocomplete='name',
+					required
+				)
+
+			.form__group
+				label.form__label(for='email') Email address
+				input#email.form__input(
+					type='email',
+					name='email',
+					placeholder='you@example.com',
+					autocomplete='email',
+					required
+				)
+
+			.form__group
+				label.form__label(for='password') Password
+				input#password.form__input(
+					type='password',
+					placeholder='••••••••',
+					name='password',
+					required,
+					minlength='8'
+				)
+
+			.form__group.ma-bt-md
+				label.form__label(for='passwordConfirm') Password Confirm
+				input#passwordConfirm.form__input(
+					type='password',
+					placeholder='••••••••',
+					name='passwordConfirm',
+					required,
+					minlength='8'
+				)
+			.form__group
+				button.btn.btn--green(type='submit') Signup

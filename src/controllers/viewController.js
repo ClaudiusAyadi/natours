@@ -29,9 +29,8 @@ exports.getTour = catchAsync(async (req, res, next) => {
 	});
 
 	if (!tour)
-		return next(
-			new AppError('No tour found with the id of with that name', 404)
-		);
+		return next(new AppError(`No tour found with that name or id`, 404));
+
 	res.status(200).render('tour', {
 		title: `${tour.name} Tour`,
 		url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
@@ -45,6 +44,13 @@ exports.getLogin = (req, res) => {
 	res.status(200).render('login', {
 		title: 'Login',
 		url: `${req.protocol}://${req.get('host')}/login`,
+	});
+};
+
+exports.getSignup = (req, res) => {
+	res.status(200).render('signup', {
+		title: 'Signup',
+		url: `${req.protocol}://${req.get('host')}/signup`,
 	});
 };
 
@@ -82,6 +88,9 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
 	// 2. Find tours with returned IDs
 	const tourIds = bookings.map(booking => booking.tour);
 	const tours = await Tour.find({ _id: { $in: tourIds } });
+
+	if (tours.length === 0)
+		return next(new AppError('You have not booked any tour', 404));
 
 	res.status(200).render('overview', {
 		title: 'My Tours',

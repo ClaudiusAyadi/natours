@@ -28,26 +28,25 @@ app.use(cors());
 app.options('*', cors());
 
 // 2. Static folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // 3. Set security HTTP headers
-app.use(
-	helmet.contentSecurityPolicy({
-		directives: {
-			defaultSrc: ["'self'", 'none'],
-			fontSrc: ["'self'", 'https:'],
-			scriptSrc: ["'self'", 'unsafe-inline'],
-			scriptSrcElem: ["'self'", 'https:', 'https://*.cloudflare.com'],
-			styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
-			connectSrc: ["'self'", 'https:'],
-			workerSrc: ["'self'", 'https', 'blob:'],
-			frameSrc: ["'self'", 'https', 'https://*.stripe.com'],
-		},
-	})
-);
+const securityPolicy = {
+	directives: {
+		defaultSrc: ["'self'", "'none"],
+		fontSrc: ["'self'", 'https:'],
+		scriptSrc: ["'self'", "'unsafe-inline"],
+		scriptSrcElem: ["'self'", 'https:', 'https://*.cloudflare.com'],
+		styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
+		connectSrc: ["'self'", 'https:'],
+		workerSrc: ["'self'", 'https', 'blob:'],
+		frameSrc: ["'self'", 'https', 'https://*.stripe.com'],
+	},
+};
+app.use(helmet.contentSecurityPolicy(securityPolicy));
 
 // 4. Dev logging
-if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
+// if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 // 5. Request Rate limiting
 const limiter = rateLimit({
@@ -82,9 +81,33 @@ app.use(
 	})
 );
 
-// 8.  Test middleware
+// 8. Custom logging
 app.use((req, res, next) => {
-	req.requestTime = new Date().toISOString();
+	const date = Date.now();
+
+	res.on('finish', () => {
+		const endTime = Date.now();
+		const timeTaken = endTime - date;
+
+		const options = {
+			month: 'short',
+			day: 'numeric',
+			hour12: false,
+			timeZone: 'Africa/Lagos',
+			hour: '2-digit',
+			minute: '2-digit',
+			second: '2-digit',
+		};
+		const timestamp = new Intl.DateTimeFormat('en-US', options).format(date);
+		const icon = res.statusCode < 400 ? '🛈' : '❌';
+		const color = res.statusCode < 400 ? '\x1b[32m' : '\x1b[31m'; // Green for success, Red for error
+		const resetColor = '\x1b[0m'; // Reset color
+
+		console.info(
+			`${timestamp}: ${icon} [${color}${res.statusCode}${resetColor}] ${req.method} ${req.originalUrl} ${timeTaken}ms`
+		);
+	});
+
 	next();
 });
 

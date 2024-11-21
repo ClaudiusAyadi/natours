@@ -12,5 +12,6 @@ router.get('/', viewController.getOverview);
 
 router.get('/tour/:slug', viewController.getTour);
 router.get('/login', viewController.getLogin);
+router.get('/signup', viewController.getSignup);
 
 module.exports = router;
